@@ -37,6 +37,19 @@ dependencies {
     testImplementation 'org.testcontainers:postgresql'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     runtimeOnly 'org.flywaydb:flyway-database-postgresql:10.20.1'
+
+    //mapper
+    implementation "org.mapstruct:mapstruct:1.5.5.Final"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+    annotationProcessor "org.mapstruct:mapstruct-processor:1.5.5.Final"
+
+    //security
+    implementation "org.springframework.boot:spring-boot-starter-security"
+
+    //jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 }
 
 tasks.named('test') {

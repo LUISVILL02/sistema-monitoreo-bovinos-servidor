@@ -1,12 +1,11 @@
 spring:
   application:
     name: ApiMonitoreo
-    #security:
-      #jwt:
-        #secret-key: f5f089c5324dcbf107086b08bb7f874bcbf683745484b6684df6d7fc9e591fea
-        #expiration: 86400000
-        #refresh-token:
-          #expiration: 604800000
+    security:
+      jwt:
+        secret-key: f5f089c5324dcbf107086b08bb7f874bcbf683745484b6684df6d7fc9e591fea
+        expiration: 86400000
+    api: /Api-Monitoreo/V1.0.0
 
   datasource:
     url: jdbc:postgresql://localhost:5431/monitoreodb
