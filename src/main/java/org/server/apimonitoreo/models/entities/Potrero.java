@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -38,5 +39,8 @@ public class Potrero {
 
     @OneToMany(mappedBy = "potrero")
     private Set<Bovino> bovinos = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "potrero")
+    private List<Coordenada> coordenadas;
 
 }

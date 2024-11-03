@@ -29,6 +29,8 @@ public class WebConfigSecurity {
                         authRequest
                                 .requestMatchers("/Api-Monitoreo/V1.0.0/bovinos/**").permitAll()
                                 .requestMatchers("/Api-Monitoreo/V1.0.0/auth/**").permitAll()
+                                .requestMatchers("/ws-datos/**").permitAll()
+                                .requestMatchers("/datos/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager->
