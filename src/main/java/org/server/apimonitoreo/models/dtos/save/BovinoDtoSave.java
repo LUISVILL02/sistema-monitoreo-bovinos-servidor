@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,4 +23,7 @@ public class BovinoDtoSave {
     private BigDecimal pesoEntrada;
     private String imagen;
     private String color;
+    private UUID sensorId;
+    private UUID potreroId;
+    private UUID propietarioId;
 }
