@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -14,8 +15,8 @@ import java.util.UUID;
 @Table(name = "Historial_ubicaciones")
 public class HistorialUbicacione {
     @Id
+    @GeneratedValue(generator = "UUID")
     @Column(name = "id_historial", nullable = false)
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @NotNull
