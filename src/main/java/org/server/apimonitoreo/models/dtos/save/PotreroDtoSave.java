@@ -10,7 +10,5 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class PotreroDtoSave {
-    private Double longitud;
-    private Double latitud;
     private Integer area;
 }
