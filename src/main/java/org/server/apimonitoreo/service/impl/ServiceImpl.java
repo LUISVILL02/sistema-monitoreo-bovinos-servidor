@@ -25,9 +25,10 @@ public abstract class ServiceImpl<S,M,E> {
     }
 
     public Optional<M> findById(UUID id) {
-        Optional<E> user = Optional.ofNullable(repository.findById(id)
+        System.out.println("depurando");
+        Optional<E> e = Optional.ofNullable(repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Entity not found")));
-        return user.map(mapper::EntityToDtoSend);
+        return e.map(mapper::EntityToDtoSend);
     }
 
     public void deleteById(UUID id) {

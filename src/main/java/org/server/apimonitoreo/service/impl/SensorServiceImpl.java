@@ -22,4 +22,5 @@ public class SensorServiceImpl extends ServiceImpl<Sensore, SensorDtoSend, Senso
     public SensorDtoSend save() {
         return sensorMapper.EntityToDtoSend(sensorRepository.save(new Sensore()));
     }
+
 }
