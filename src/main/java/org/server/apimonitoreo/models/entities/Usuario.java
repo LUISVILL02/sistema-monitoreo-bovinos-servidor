@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,8 +20,8 @@ import java.util.*;
 @Table(name = "Usuarios")
 public class Usuario{
     @Id
+    @GeneratedValue(generator = "UUID")
     @Column(name = "id_usuario", nullable = false)
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Size(max = 255)
@@ -61,4 +62,7 @@ public class Usuario{
 
     @OneToMany(mappedBy = "propietario")
     private Set<Usuario> usuarios = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "propietario")
+    private Set<Bovino> bovinos = new LinkedHashSet<>();
 }

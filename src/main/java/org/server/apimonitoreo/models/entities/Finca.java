@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -16,8 +17,8 @@ import java.util.UUID;
 @Table(name = "Fincas")
 public class Finca {
     @Id
+    @GeneratedValue(generator = "UUID")
     @Column(name = "id_finca", nullable = false)
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Size(max = 255)

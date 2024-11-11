@@ -20,7 +20,6 @@ public class Bovino {
     @Id
     @Size(max = 255)
     @Column(name = "codigo", nullable = false)
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String codigo;
 
     @NotNull
@@ -31,8 +30,8 @@ public class Bovino {
     @Column(name = "fecha_ingreso", nullable = false)
     private LocalDate fechaIngreso;
 
-    @NotNull
-    @Column(name = "fecha_salida", nullable = false)
+
+    @Column(name = "fecha_salida", nullable = true)
     private LocalDate fechaSalida;
 
     @Size(max = 255)
@@ -58,8 +57,13 @@ public class Bovino {
     private Potrero potrero;
 
     @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "propietario_id", nullable = false)
+    private Usuario propietario;
+
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "codigo", referencedColumnName = "id")
+    @JoinColumn(name = "id_sensor", referencedColumnName = "codigo", nullable = false)
     private Sensore sensor;
 
     @OneToMany(mappedBy = "bovino")
