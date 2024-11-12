@@ -3,6 +3,7 @@ package org.server.apimonitoreo.service.impl;
 import org.server.apimonitoreo.exceptions.EntityNotFount;
 import org.server.apimonitoreo.models.dtos.save.BovinoDtoSave;
 import org.server.apimonitoreo.models.dtos.send.BovinoDtoSend;
+import org.server.apimonitoreo.models.dtos.send.UsuarioDtoSend;
 import org.server.apimonitoreo.models.entities.Bovino;
 import org.server.apimonitoreo.models.entities.Potrero;
 import org.server.apimonitoreo.models.entities.Sensore;
@@ -14,6 +15,8 @@ import org.server.apimonitoreo.repository.SensorRepository;
 import org.server.apimonitoreo.repository.UserRepository;
 import org.server.apimonitoreo.service.BovinoService;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class BovinoServiceImpl extends ServiceImpl<BovinoDtoSave, BovinoDtoSend, Bovino> implements BovinoService {
@@ -52,5 +55,33 @@ public class BovinoServiceImpl extends ServiceImpl<BovinoDtoSave, BovinoDtoSend,
         bovino.setCodigo(codigo);
 
         return bovinoMapper.EntityToDtoSend(bovinoRepository.save(bovino));
+    }
+
+    @Override
+    public Bovino findBySensor_Id(UUID sensorId) {
+        Sensore sensor = sensorRepository.findById(sensorId)
+                .orElseThrow(() -> new EntityNotFount("Sensor no encontrado"));
+
+        Bovino bovino = bovinoRepository.findBySensor_Id(sensor.getId())
+                .orElseThrow(() -> new EntityNotFount("El sensor no está asocioado a ningun bovino"));
+        return bovino;
+    }
+
+    @Override
+    public Usuario findByPropietario(String bovinoId) {
+        return userRepository.findByPropietario(bovinoId)
+                .orElseThrow(() -> new EntityNotFount("Propietario no encontrado"));
+    }
+
+    @Override
+    public String updateSensor(UUID sensorId, String bovinoId) {
+        Bovino bovino = bovinoRepository.findByCodigo(bovinoId)
+                .orElseThrow(() -> new EntityNotFount("Bovino no encontrado"));
+        Sensore sensor = sensorRepository.findById(sensorId)
+                .orElseThrow(() -> new EntityNotFount("Sensor no encontrado"));
+
+        bovino.setSensor(sensor);
+        bovinoRepository.save(bovino);
+        return "Sensor actualizado para el bovino: "+bovino.getCodigo();
     }
 }

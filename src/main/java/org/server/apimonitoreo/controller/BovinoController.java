@@ -11,6 +11,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Validated
 @AllArgsConstructor
 @RestController
@@ -27,5 +30,17 @@ public class BovinoController {
     @PostMapping
     public ResponseEntity<BovinoDtoSend> save(@RequestBody @Valid BovinoDtoSave bovinoDtoSave) {
         return ResponseEntity.ok(bovinoService.save(bovinoDtoSave));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<BovinoDtoSend>> findById(@PathVariable UUID id) {
+        return ResponseEntity.ok(bovinoService.findById(id));
+    }
+
+    @PutMapping("/{idBovino}/{idSensor}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> updateSensor(@PathVariable String idBovino,
+                                               @PathVariable UUID idSensor) {
+        return ResponseEntity.ok(bovinoService.updateSensor(idSensor, idBovino));
     }
 }

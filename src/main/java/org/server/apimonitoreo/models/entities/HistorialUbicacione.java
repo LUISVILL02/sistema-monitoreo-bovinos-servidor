@@ -38,7 +38,7 @@ public class HistorialUbicacione {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "codigo", nullable = false)
+    @JoinColumn(name = "id_sensor", nullable = false)
     private Sensore sensor;
 
 }
