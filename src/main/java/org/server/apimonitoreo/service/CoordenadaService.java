@@ -10,4 +10,5 @@ import java.util.UUID;
 public interface CoordenadaService extends Service<CoordenadaDtoSave, CoordenadaDtoSend, Coordenada> {
     List<CoordenadaDtoSend> findByPotreroId(UUID idPotrero);
     String deleteAllByPotrero_Id(UUID idPotrero);
+    CoordenadaDtoSend save(CoordenadaDtoSave coordenadaDtoSave, UUID idPotrero);
 }

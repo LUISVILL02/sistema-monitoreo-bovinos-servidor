@@ -32,5 +32,6 @@ public class BovinoDtoSend {
 
     private UUID idPotrero;
     private UUID codigoSensor;
+    private String nombrePropietario;
     private List<HistorialDtoSend> historialUbicaciones = new ArrayList<>();
 }

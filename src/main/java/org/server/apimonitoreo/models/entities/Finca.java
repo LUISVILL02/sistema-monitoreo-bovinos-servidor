@@ -43,6 +43,11 @@ public class Finca {
     @JoinColumn(name = "id_propietario", nullable = false)
     private Usuario propietario;
 
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "capataz_id", referencedColumnName = "id_usuario", nullable = false)
+    private Usuario capataz;
+
     @OneToMany(mappedBy = "finca")
     private Set<Potrero> potreros = new LinkedHashSet<>();
 

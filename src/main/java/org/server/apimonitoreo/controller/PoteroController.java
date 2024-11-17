@@ -37,7 +37,7 @@ public class PoteroController {
     }
 
     @GetMapping("/{idFinca}")
-    @PreAuthorize("hasRole('PROPIETARIO')")
+    @PreAuthorize("hasRole('PROPIETARIO') or hasRole('CAPATAZ')")
     public ResponseEntity<?> findByFincaId(@PathVariable UUID idFinca){
         return ResponseEntity.ok(potreroService.findByFincaId(idFinca));
     }

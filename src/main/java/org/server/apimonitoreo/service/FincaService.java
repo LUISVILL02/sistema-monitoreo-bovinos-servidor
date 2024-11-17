@@ -11,6 +11,7 @@ import java.util.UUID;
 
 public interface FincaService extends Service<FincaDtoSave, FincaDtoSend, Finca> {
     FincaDtoSend save(FincaDtoSave fincaDtoSave, UUID idPropietario);
-    Optional<FincaDtoSend> findByPropietario(UUID idPropietario);
     Page<FincaDtoSend> findAllByPropietario(UUID idPropietario, int page, int size);
+    FincaDtoSend updateCapataz(UUID idfinca, UUID capatazId);
+    Optional<FincaDtoSend> findByCapataz(UUID idCapataz);
 }

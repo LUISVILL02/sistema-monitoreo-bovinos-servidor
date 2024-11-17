@@ -10,7 +10,8 @@ import org.server.apimonitoreo.models.entities.Finca;
 @Mapper(componentModel = "spring")
 public interface FincaMapper extends MapperGen<FincaDtoSave, FincaDtoSend, Finca> {
     @Mappings({
-            @Mapping(target = "idPropietario", source = "propietario.id"),
+            @Mapping(target = "nombrePropietario", source = "propietario.nombre"),
+            @Mapping(target = "nombreCapataz", source = "capataz.nombre")
     })
     FincaDtoSend EntityToDtoSend(Finca finca);
     Finca DtoSaveToEntity(FincaDtoSave fincaDtoSave);

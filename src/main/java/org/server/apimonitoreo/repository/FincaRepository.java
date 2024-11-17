@@ -10,4 +10,5 @@ import java.util.UUID;
 public interface FincaRepository extends Repository<Finca> {
     Optional<Finca> findByPropietario_Id(UUID idPropietario);
     Page<Finca> findAllByPropietario_Id(UUID idPropietario, Pageable pageable);
+    Optional<Finca> findByCapataz_Id(UUID idCapataz);
 }

@@ -18,4 +18,11 @@ public interface UserRepository extends Repository<Usuario> {
             "JOIN p.finca f " +
             "WHERE b.codigo = :bovinoId")
     Optional<Usuario> findByPropietario(String bovinoId);
+
+    @Query("SELECT f.capataz " +
+            "FROM Bovino b " +
+            "JOIN b.potrero p " +
+            "JOIN p.finca f " +
+            "WHERE b.codigo = :codigoBovino")
+    Optional<Usuario> findByCapataz(String codigoBovino);
 }

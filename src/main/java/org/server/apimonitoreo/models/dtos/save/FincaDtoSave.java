@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -14,4 +16,5 @@ public class FincaDtoSave {
     private Integer numeroPotreros;
     private Double longitud;
     private Double latitud;
+    private UUID idCapataz;
 }

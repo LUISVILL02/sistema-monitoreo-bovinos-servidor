@@ -27,10 +27,10 @@ public class FincaController {
        return ResponseEntity.created(uri).body(fincaService.save(fincaDtoSave, idPropietario));
     }
 
-    @GetMapping("/{idPropietario}")
+    @GetMapping("/{idFinca}")
     @PreAuthorize("hasRole('PROPIETARIO')")
-    public ResponseEntity<FincaDtoSend> findByPropietario(@PathVariable UUID idPropietario){
-        return ResponseEntity.ok(fincaService.findByPropietario(idPropietario).get());
+    public ResponseEntity<FincaDtoSend> findByPropietario(@PathVariable UUID idFinca){
+        return ResponseEntity.ok(fincaService.findById(idFinca).get());
     }
 
     @GetMapping("/{idPropietario}/")
@@ -38,5 +38,18 @@ public class FincaController {
                                                   @RequestParam int page,
                                                   @RequestParam int size){
         return ResponseEntity.ok(fincaService.findAllByPropietario(idPropietario, page, size));
+    }
+
+    @PutMapping("/{idFinca}/{idCapataz}")
+    @PreAuthorize("hasRole('PROPIETARIO')")
+    public ResponseEntity<?> updateCapataz(@PathVariable UUID idFinca,
+                                          @PathVariable UUID idCapataz){
+        return ResponseEntity.ok(fincaService.updateCapataz(idFinca, idCapataz));
+    }
+
+    @GetMapping("/capataz/{idCapataz}")
+    @PreAuthorize("hasRole('CAPATAZ')")
+    public ResponseEntity<?> findByCapataz(@PathVariable UUID idCapataz){
+        return ResponseEntity.ok(fincaService.findByCapataz(idCapataz).get());
     }
 }

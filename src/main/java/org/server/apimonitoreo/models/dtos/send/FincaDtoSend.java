@@ -19,6 +19,7 @@ public class FincaDtoSend {
     private Integer numeroPotreros;
     private Double longitud;
     private Double latitud;
-    private UUID idPropietario;
+    private String nombrePropietario;
+    private String nombreCapataz;
     private Set<PotreroDtoSend> potreros = new LinkedHashSet<>();
 }

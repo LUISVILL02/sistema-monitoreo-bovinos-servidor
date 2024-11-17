@@ -3,7 +3,6 @@ package org.server.apimonitoreo.service.impl;
 import org.server.apimonitoreo.exceptions.EntityNotFount;
 import org.server.apimonitoreo.models.dtos.save.BovinoDtoSave;
 import org.server.apimonitoreo.models.dtos.send.BovinoDtoSend;
-import org.server.apimonitoreo.models.dtos.send.UsuarioDtoSend;
 import org.server.apimonitoreo.models.entities.Bovino;
 import org.server.apimonitoreo.models.entities.Potrero;
 import org.server.apimonitoreo.models.entities.Sensore;
@@ -16,6 +15,7 @@ import org.server.apimonitoreo.repository.UserRepository;
 import org.server.apimonitoreo.service.BovinoService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -74,6 +74,12 @@ public class BovinoServiceImpl extends ServiceImpl<BovinoDtoSave, BovinoDtoSend,
     }
 
     @Override
+    public Usuario findByCapataz(String codigoBovino) {
+        return userRepository.findByCapataz(codigoBovino)
+                .orElseThrow(() -> new EntityNotFount("Capataz no encontrado"));
+    }
+
+    @Override
     public String updateSensor(UUID sensorId, String bovinoId) {
         Bovino bovino = bovinoRepository.findByCodigo(bovinoId)
                 .orElseThrow(() -> new EntityNotFount("Bovino no encontrado"));
@@ -84,4 +90,34 @@ public class BovinoServiceImpl extends ServiceImpl<BovinoDtoSave, BovinoDtoSend,
         bovinoRepository.save(bovino);
         return "Sensor actualizado para el bovino: "+bovino.getCodigo();
     }
+
+    @Override
+    public List<BovinoDtoSend> findByPropietarioId(UUID propietarioId) {
+        userRepository.findById(propietarioId)
+                .orElseThrow(() -> new EntityNotFount("Propietario no encontrado"));
+        List<Bovino> bovinos = bovinoRepository.findByPropietario_Id(propietarioId);
+        return bovinos
+                .stream()
+                .map(bovinoMapper::EntityToDtoSend)
+                .toList();
+    }
+
+    @Override
+    public List<BovinoDtoSend> findByCapatazId(UUID capatazId) {
+        userRepository.findById(capatazId)
+                .orElseThrow(() -> new EntityNotFount("Capataz no encontrado"));
+        List<Bovino> bovinos = bovinoRepository.findByPotrero_Finca_Capataz_Id(capatazId);
+        return bovinos
+                .stream()
+                .map(bovinoMapper::EntityToDtoSend)
+                .toList();
+    }
+
+    @Override
+    public BovinoDtoSend findByCodigo(String codigo) {
+        Bovino bovino = bovinoRepository.findByCodigo(codigo)
+                .orElseThrow(() -> new EntityNotFount("Bovino no encontrado"));
+        return bovinoMapper.EntityToDtoSend(bovino);
+    }
+
 }

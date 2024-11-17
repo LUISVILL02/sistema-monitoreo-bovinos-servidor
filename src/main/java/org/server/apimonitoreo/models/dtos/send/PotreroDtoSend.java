@@ -1,16 +1,11 @@
 package org.server.apimonitoreo.models.dtos.send;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.server.apimonitoreo.models.entities.Bovino;
-import org.server.apimonitoreo.models.entities.Finca;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -22,9 +17,6 @@ public class PotreroDtoSend {
     private Double longitud;
     private Double latitud;
     private Integer area;
-
-    //private Finca idFinca;
-
-    private Set<BovinoDtoSend> bovinos = new LinkedHashSet<>();
-
+    private List<CoordenadaDtoSend> coordenadas;
+    private UUID idFinca;
 }

@@ -37,22 +37,21 @@ public class FincaServiceImpl extends ServiceImpl<FincaDtoSave, FincaDtoSend, Fi
 
     @Override
     public FincaDtoSend save(FincaDtoSave fincaDtoSave, UUID idPropietario) {
-        Role rol = roleRepository.findByNombre(ERole.PROPIETARIO)
+        Role rolP = roleRepository.findByNombre(ERole.PROPIETARIO)
                 .orElseThrow(() -> new EntityNotFount("Rol no encontrado"));
-        Usuario propietario = usuarioRepository.findByIdAndRol_Id(idPropietario, rol.getId())
+        Role rolC = roleRepository.findByNombre(ERole.CAPATAZ)
+                .orElseThrow(() -> new EntityNotFount("Rol no encontrado"));
+        Usuario propietario = usuarioRepository.findByIdAndRol_Id(idPropietario, rolP.getId())
                 .orElseThrow(() -> new EntityNotFount("Propietarrio no encontrado"));
+
+        Usuario capataz = usuarioRepository.findByIdAndRol_Id(fincaDtoSave.getIdCapataz(), rolC.getId())
+                .orElseThrow(() -> new EntityNotFount("Capataz no encontrado"));
 
         Finca finca = fincaMapper.DtoSaveToEntity(fincaDtoSave);
 
         finca.setPropietario(propietario);
+        finca.setCapataz(capataz);
         return fincaMapper.EntityToDtoSend(fincaRepository.save(finca));
-    }
-
-    @Override
-    public Optional<FincaDtoSend> findByPropietario(UUID idPropietario) {
-        Finca finca = fincaRepository.findByPropietario_Id(idPropietario)
-                .orElseThrow(() -> new EntityNotFount("Finca no encontrada"));
-        return Optional.of(fincaMapper.EntityToDtoSend(finca));
     }
 
     @Override
@@ -60,5 +59,27 @@ public class FincaServiceImpl extends ServiceImpl<FincaDtoSave, FincaDtoSend, Fi
         Pageable pageable = PageRequest.of(page, size);
         Page<Finca> fincas = fincaRepository.findAllByPropietario_Id(idPropietario, pageable);
         return fincas.map(fincaMapper::EntityToDtoSend);
+    }
+
+    @Override
+    public FincaDtoSend updateCapataz(UUID idfinca, UUID capatazId) {
+        Finca finca = fincaRepository.findById(idfinca)
+                .orElseThrow(() -> new EntityNotFount("Finca no encontrada"));
+        Role rolC = roleRepository.findByNombre(ERole.CAPATAZ)
+                .orElseThrow(() -> new EntityNotFount("Rol no encontrado"));
+        Usuario capataz = usuarioRepository.findByIdAndRol_Id(capatazId, rolC.getId())
+                .orElseThrow(() -> new EntityNotFount("Capataz no encontrado"));
+        finca.setCapataz(capataz);
+        return fincaMapper.EntityToDtoSend(fincaRepository.save(finca));
+    }
+
+    @Override
+    public Optional<FincaDtoSend> findByCapataz(UUID idCapataz) {
+        usuarioRepository.findById(idCapataz)
+                .orElseThrow(() -> new EntityNotFount("Capataz no encontrado"));
+
+        Finca finca = fincaRepository.findByCapataz_Id(idCapataz)
+                .orElseThrow(() -> new EntityNotFount("Finca no encontrada"));
+        return Optional.of(fincaMapper.EntityToDtoSend(finca));
     }
 }

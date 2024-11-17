@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,13 +29,14 @@ public class BovinoController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('PROPIETARIO')")
     public ResponseEntity<BovinoDtoSend> save(@RequestBody @Valid BovinoDtoSave bovinoDtoSave) {
         return ResponseEntity.ok(bovinoService.save(bovinoDtoSave));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<BovinoDtoSend>> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(bovinoService.findById(id));
+    public ResponseEntity<BovinoDtoSend> findById(@PathVariable String id) {
+        return ResponseEntity.ok(bovinoService.findByCodigo(id));
     }
 
     @PutMapping("/{idBovino}/{idSensor}")
@@ -42,5 +44,17 @@ public class BovinoController {
     public ResponseEntity<String> updateSensor(@PathVariable String idBovino,
                                                @PathVariable UUID idSensor) {
         return ResponseEntity.ok(bovinoService.updateSensor(idSensor, idBovino));
+    }
+
+    @GetMapping("/propietario/{idPropietario}")
+    @PreAuthorize("hasRole('PROPIETARIO')")
+    public ResponseEntity<List<BovinoDtoSend>> findByPropietario(@PathVariable UUID idPropietario) {
+        return ResponseEntity.ok(bovinoService.findByPropietarioId(idPropietario));
+    }
+
+    @GetMapping("/capataz/{idCapataz}")
+    @PreAuthorize("hasRole('CAPATAZ')")
+    public ResponseEntity<List<BovinoDtoSend>> findByCapataz(@PathVariable UUID idCapataz) {
+        return ResponseEntity.ok(bovinoService.findByCapatazId(idCapataz));
     }
 }

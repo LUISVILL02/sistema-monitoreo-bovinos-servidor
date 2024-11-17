@@ -68,14 +68,17 @@ public class DatosWsController {
             System.out.println("Bovino encontrado: " + bovino.getCodigo());
             Hibernate.initialize(bovino.getHistorialUbicaciones());
             Usuario propietario = bovinoService.findByPropietario(bovino.getCodigo());
-            System.out.println("Propietario encontrado: " + propietario.getNombre());
-
-            messagingTemplate.convertAndSend("/topic/datos/" + propietario.getId() + "/",
+            Usuario capataz = bovinoService.findByCapataz(bovino.getCodigo());
+            System.out.println("Propietario encontrado: " + propietario.getNombre()+" "+propietario.getId());
+            System.out.println("Capataz acargo del bovino: " + capataz.getNombre()+" "+capataz.getId());
+            messagingTemplate.convertAndSend("/topic/datos/id/" + propietario.getId(),
                     new SendMensaje(idSensor, mensaje.getLatitud(), mensaje.getLongitud()));
+            messagingTemplate.convertAndSend("/topic/datos/id/" + capataz.getId(),
+                    new SendMensaje(idSensor, mensaje.getLatitud(), mensaje.getLongitud()));
+            System.out.println("Enviado datos a: /topic/datos/id/" + propietario.getId());
         } catch (Exception e) {
             System.out.println("Detalles: " + e.getMessage());
         } finally {
-            System.out.println("Por lo menos a enviar: ");
             messagingTemplate.convertAndSend("/topic/datos/", mensaje.getId());
         }
     }

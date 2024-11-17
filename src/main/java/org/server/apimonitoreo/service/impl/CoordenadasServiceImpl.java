@@ -45,4 +45,13 @@ public class CoordenadasServiceImpl extends ServiceImpl<CoordenadaDtoSave, Coord
         coordenadaRepository.deleteAllByPotrero_Id(idPotrero);
         return "Se han eliminado todas las coordenadas registradas para este potrero";
     }
+
+    @Override
+    public CoordenadaDtoSend save(CoordenadaDtoSave coordenadaDtoSave, UUID idPotrero) {
+        Potrero potrero = potreroRepository.findById(idPotrero)
+                .orElseThrow(() -> new EntityNotFount("Potrero no encontrado"));
+        Coordenada coordenada = coordenadaMapper.dtoSaveToEntity(coordenadaDtoSave);
+        coordenada.setPotrero(potrero);
+        return coordenadaMapper.EntityToDtoSend(coordenadaRepository.save(coordenada));
+    }
 }

@@ -15,7 +15,8 @@ public interface BovinoMapper extends MapperGen<BovinoDtoSave, BovinoDtoSend, Bo
 
     @Mappings({
             @Mapping(target = "idPotrero", source = "potrero.id"),
-            @Mapping(target = "codigoSensor", source = "sensor.id")
+            @Mapping(target = "codigoSensor", source = "sensor.id"),
+            @Mapping(target = "nombrePropietario", source = "propietario.nombre"),
     })
     @Override
     BovinoDtoSend EntityToDtoSend(Bovino bovino);
