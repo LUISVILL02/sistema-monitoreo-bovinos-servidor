@@ -1,15 +1,18 @@
 package org.server.apimonitoreo.models.dtos.save;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CoordenadaDtoSave {
-    private Double latitud;
-    private Double longitud;
+@Data
+public class PotreroSave {
+    private PotreroDtoSave potrero;
+    private List<CoordenadaDtoSave> coordenadas;
 }

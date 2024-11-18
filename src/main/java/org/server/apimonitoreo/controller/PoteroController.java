@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.server.apimonitoreo.models.dtos.save.CoordenadaDtoSave;
 import org.server.apimonitoreo.models.dtos.save.PotreroDtoSave;
+import org.server.apimonitoreo.models.dtos.save.PotreroSave;
 import org.server.apimonitoreo.service.PotreroService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,11 +23,12 @@ public class PoteroController {
 
     @PostMapping("/{idFinca}")
     @PreAuthorize("hasRole('PROPIETARIO')")
-    public ResponseEntity<?> save(@RequestBody @Valid PotreroDtoSave potreroDtoSave,
-                                  @RequestBody @Valid List<CoordenadaDtoSave> coordenadaDtoSaves,
+    public ResponseEntity<?> save(@RequestBody @Valid PotreroSave potreroDto,
                                   @PathVariable UUID idFinca){
+        System.out.println("El body es: "+potreroDto);
         URI uri = URI.create("/Api-Monitoreo/V1.0.0/potrero/"+idFinca);
-        return ResponseEntity.created(uri).body(potreroService.save(potreroDtoSave, idFinca, coordenadaDtoSaves));
+        return ResponseEntity.created(uri).body(potreroService.save(
+                potreroDto.getPotrero(), idFinca, potreroDto.getCoordenadas()));
     }
 
     @GetMapping
@@ -39,6 +40,7 @@ public class PoteroController {
     @GetMapping("/{idFinca}")
     @PreAuthorize("hasRole('PROPIETARIO') or hasRole('CAPATAZ')")
     public ResponseEntity<?> findByFincaId(@PathVariable UUID idFinca){
+        System.out.println(potreroService.findByFincaId(idFinca));
         return ResponseEntity.ok(potreroService.findByFincaId(idFinca));
     }
 }

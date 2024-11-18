@@ -12,6 +12,7 @@ public interface PotreroMapper extends MapperGen<PotreroDtoSave, PotreroDtoSend,
 
     @Mappings({
             @Mapping(target = "idFinca", source = "finca.id"),
+            @Mapping(target = "coordenadas", source = "coordenadas")
     })
     PotreroDtoSend EntityToDtoSend(Potrero potrero);
 

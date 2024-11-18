@@ -56,8 +56,10 @@ public class FincaServiceImpl extends ServiceImpl<FincaDtoSave, FincaDtoSend, Fi
 
     @Override
     public Page<FincaDtoSend> findAllByPropietario(UUID idPropietario, int page, int size) {
+        System.out.println("entramos al metodo para ver donde se queda");
         Pageable pageable = PageRequest.of(page, size);
         Page<Finca> fincas = fincaRepository.findAllByPropietario_Id(idPropietario, pageable);
+        System.out.println("será en el repository?");
         return fincas.map(fincaMapper::EntityToDtoSend);
     }
 

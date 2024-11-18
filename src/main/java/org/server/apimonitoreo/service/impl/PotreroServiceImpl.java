@@ -54,6 +54,7 @@ public class PotreroServiceImpl extends ServiceImpl<PotreroDtoSave, PotreroDtoSe
                 .map(coordenadaDtoSave -> {
                     Coordenada coordenada = coordenadaMapper.dtoSaveToEntity(coordenadaDtoSave);
                     coordenada.setPotrero(potreroSave);
+                    coordenadaRepository.save(coordenada);
                     return coordenada;
                 }).toList();
 

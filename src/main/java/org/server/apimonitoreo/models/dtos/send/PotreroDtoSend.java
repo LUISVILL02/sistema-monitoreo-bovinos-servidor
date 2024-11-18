@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +18,6 @@ public class PotreroDtoSend {
     private Double longitud;
     private Double latitud;
     private Integer area;
-    private List<CoordenadaDtoSend> coordenadas;
+    private List<CoordenadaDtoSend> coordenadas = new ArrayList<>();
     private UUID idFinca;
 }

@@ -13,7 +13,6 @@ import java.util.UUID;
 @Builder
 public class CoordenadaDtoSend {
     private UUID id;
-    private Long latitud;
-    private Long longitud;
-    private UUID potrero;
+    private Double latitud;
+    private Double longitud;
 }

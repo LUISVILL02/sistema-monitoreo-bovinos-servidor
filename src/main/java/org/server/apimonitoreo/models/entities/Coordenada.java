@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
@@ -18,10 +17,10 @@ import java.util.UUID;
 public class Coordenada {
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(name = "id_coordenada", nullable = false)
+    @Column(name = "id", nullable = false)
     private UUID id;
-    private Long latitud;
-    private Long longitud;
+    private Double latitud;
+    private Double longitud;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_potrero", nullable = false)

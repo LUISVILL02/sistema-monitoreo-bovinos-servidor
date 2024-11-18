@@ -37,6 +37,7 @@ public class FincaController {
     public ResponseEntity<?> findAllByPropietario(@PathVariable UUID idPropietario,
                                                   @RequestParam int page,
                                                   @RequestParam int size){
+        System.out.println("Vemos si entra al controller para ver si es de regreso");
         return ResponseEntity.ok(fincaService.findAllByPropietario(idPropietario, page, size));
     }
 
