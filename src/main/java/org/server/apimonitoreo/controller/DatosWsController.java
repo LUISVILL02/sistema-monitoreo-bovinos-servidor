@@ -3,6 +3,7 @@ package org.server.apimonitoreo.controller;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.hibernate.Hibernate;
+import org.server.apimonitoreo.models.dtos.save.CoordenadaDtoSave;
 import org.server.apimonitoreo.models.dtos.send.SensorDtoSend;
 import org.server.apimonitoreo.models.dtos.webSocket.Mensaje;
 import org.server.apimonitoreo.models.dtos.webSocket.SendMensaje;
@@ -10,6 +11,7 @@ import org.server.apimonitoreo.models.entities.Bovino;
 import org.server.apimonitoreo.models.entities.Usuario;
 import org.server.apimonitoreo.service.BovinoService;
 import org.server.apimonitoreo.service.SensorService;
+import org.server.apimonitoreo.service.ValidationCoordenadas;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -28,7 +30,8 @@ import java.util.UUID;
 public class DatosWsController {
     private final SimpMessagingTemplate messagingTemplate;
     private final SensorService sensorService;
-    private BovinoService bovinoService;
+    private final BovinoService bovinoService;
+    private final ValidationCoordenadas validationCoordenadas;
 
     @MessageMapping("/datos")
     @SendTo("/topic/datos")
@@ -65,6 +68,8 @@ public class DatosWsController {
             System.out.println("idSensor: " + idSensor);
 
             Bovino bovino = bovinoService.findBySensor_Id(idSensor);
+            validationCoordenadas.alerta(new CoordenadaDtoSave(mensaje.getLatitud(), mensaje.getLongitud()), bovino);
+
             System.out.println("Bovino encontrado: " + bovino.getCodigo());
             Hibernate.initialize(bovino.getHistorialUbicaciones());
             Usuario propietario = bovinoService.findByPropietario(bovino.getCodigo());

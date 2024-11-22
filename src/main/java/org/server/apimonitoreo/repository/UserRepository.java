@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public interface UserRepository extends Repository<Usuario> {
     Optional<Usuario> findByIdAndRol_Id(UUID idUser, Integer role);
+    Optional<Usuario> findByCorreoAndRol_Id(String correo, Integer role);
     Optional<Usuario> findByCorreo(String correo);
     Boolean existsByCorreo(String correo);
     Boolean existsByIdentificación(Long identificación);

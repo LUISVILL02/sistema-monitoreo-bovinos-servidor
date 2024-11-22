@@ -44,8 +44,12 @@ public class FincaServiceImpl extends ServiceImpl<FincaDtoSave, FincaDtoSend, Fi
         Usuario propietario = usuarioRepository.findByIdAndRol_Id(idPropietario, rolP.getId())
                 .orElseThrow(() -> new EntityNotFount("Propietarrio no encontrado"));
 
-        Usuario capataz = usuarioRepository.findByIdAndRol_Id(fincaDtoSave.getIdCapataz(), rolC.getId())
+        Usuario capataz = usuarioRepository.findByCorreoAndRol_Id(fincaDtoSave.getCorreoCapataz(), rolC.getId())
                 .orElseThrow(() -> new EntityNotFount("Capataz no encontrado"));
+
+        if (!capataz.getPropietario().getCorreo().equals(propietario.getCorreo())) {
+            throw new EntityNotFount("El capataz " + capataz.getNombre() + " no trabaja para ti ");
+        }
 
         Finca finca = fincaMapper.DtoSaveToEntity(fincaDtoSave);
 

@@ -13,8 +13,6 @@ import org.server.apimonitoreo.repository.UserRepository;
 import org.server.apimonitoreo.security.jwt.JwtUtils;
 import org.server.apimonitoreo.service.AuthService;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -69,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
                 () -> roleRepository.save(role)
         );
 
-        if (!isNull(registerDto.getPropietario())){
+        if (!isNull(registerDto.getPropietario()) && !registerDto.getPropietario().equals("")){
             Propietario = userRepository.findByCorreo(registerDto.getPropietario()).orElseThrow(
                     () -> new RuntimeException("El propietario no ha sido encontrado")
             );
